@@ -1,0 +1,23 @@
+{
+  "name": "lace-tracker",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "browser-image-compression": "^2.0.2",
+    "dexie": "^4.0.8",
+    "exceljs": "^4.4.0",
+    "file-saver": "^2.0.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.2",
+    "vite-plugin-pwa": "^0.20.5"
+  }
+}
