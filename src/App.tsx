@@ -22,12 +22,48 @@ function ImageUpload({ value, onChange }) {
   const galleryRef = useRef();
   const cameraRef = useRef();
 
-  const readFile = (file) => {
-    if (!file) return;
-    const r = new FileReader();
-    r.onload = (e) => onChange(e.target.result);
-    r.readAsDataURL(file);
+const readFile = (file) => {
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = (e) => {
+    const img = new Image();
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+
+      const MAX_WIDTH = 600;
+
+      const scale = MAX_WIDTH / img.width;
+
+      canvas.width = MAX_WIDTH;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(
+        img,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      const compressed =
+        canvas.toDataURL(
+          "image/jpeg",
+          0.7
+        );
+
+      onChange(compressed);
+    };
+
+    img.src = e.target.result;
   };
+
+  reader.readAsDataURL(file);
+};
 
   return (
     <div style={{ marginBottom: 14 }}>
