@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const initialData = [
   { id: 1, name: "白色蕾丝花边 A", type: "single", price: 3.5, unit: "meter", totalLength: 5, usedLength: 0, image: null, note: "细腻镂空，适合发圈" },
@@ -297,13 +297,23 @@ const S = {
 
 // ── App ────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [items, setItems] = useState(initialData);
+  const [items, setItems] = useState(() => {
+    const saved = localStorage.getItem("lace_inventory");
+    return saved ? JSON.parse(saved) : initialData;
+});
   const [tab, setTab] = useState("inventory");
   const [showAdd, setShowAdd] = useState(false);
   const [editTarget, setEditTarget] = useState(null);
   const [deleteTarget, setDeleteTarget] = useState(null);
   const [useTarget, setUseTarget] = useState(null);
   const [filter, setFilter] = useState("all");
+
+  useEffect(() => {
+    localStorage.setItem(
+      "lace_inventory",
+      JSON.stringify(items)
+    );
+  }, [items]);
 
   const addItem = (item) => setItems(p => [...p, item]);
   const saveItem = (updated) => setItems(p => p.map(i => i.id === updated.id ? updated : i));
